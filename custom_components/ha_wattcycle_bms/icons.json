@@ -1,0 +1,17 @@
+{
+  "entity": {
+    "switch": {
+      "charge": { "default": "mdi:battery-charging", "state": { "off": "mdi:battery-off" } },
+      "discharge": { "default": "mdi:battery-arrow-down", "state": { "off": "mdi:battery-off" } }
+    },
+    "sensor": {
+      "alarms": { "default": "mdi:alert-circle-outline" },
+      "cycles": { "default": "mdi:battery-sync" },
+      "battery_mode": { "default": "mdi:battery-heart-variant" }
+    },
+    "binary_sensor": {
+      "warning": { "default": "mdi:alert-outline" },
+      "balancing": { "default": "mdi:scale-balance" }
+    }
+  }
+}

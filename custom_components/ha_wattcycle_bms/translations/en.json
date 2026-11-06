@@ -1,0 +1,201 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "description": "Select the WattCycle battery to add.",
+        "data": {
+          "address": "Device"
+        }
+      },
+      "bluetooth_confirm": {
+        "description": "Do you want to set up {name}?"
+      }
+    },
+    "abort": {
+      "already_configured": "Device is already configured",
+      "no_devices_found": "No WattCycle battery found. Make sure it is awake (apply a load or charge) and in Bluetooth range.",
+      "not_supported": "Device is not a WattCycle battery with TDT BMS"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Update interval",
+          "keep_alive": "Keep connection open",
+          "capacity_scale": "Capacity scaling",
+          "allow_switch_off": "Allow switching off charge/discharge"
+        },
+        "data_description": {
+          "keep_alive": "Faster and more stable, but occupies a Bluetooth connection slot permanently.",
+          "capacity_scale": "Only change if capacities are off by a factor of 10.",
+          "allow_switch_off": "On by default. Turn off to lock the switches against being switched off (switching on stays possible). Switching discharge off cuts the battery output, including a Home Assistant host powered by it."
+        }
+      }
+    }
+  },
+  "selector": {
+    "capacity_scale": {
+      "options": {
+        "auto": "Automatic (firmware)",
+        "0.1": "0.1 Ah",
+        "1": "1 Ah"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state_of_health": {
+        "name": "State of health"
+      },
+      "remaining_capacity": {
+        "name": "Remaining capacity"
+      },
+      "full_capacity": {
+        "name": "Full charge capacity"
+      },
+      "design_capacity": {
+        "name": "Design capacity"
+      },
+      "stored_energy": {
+        "name": "Stored energy"
+      },
+      "cycles": {
+        "name": "Cycles"
+      },
+      "accumulated_capacity": {
+        "name": "Accumulated capacity"
+      },
+      "remaining_time": {
+        "name": "Remaining time"
+      },
+      "time_to_sleep": {
+        "name": "Time until sleep"
+      },
+      "emergency_time": {
+        "name": "Emergency time"
+      },
+      "protection_count": {
+        "name": "Protection events"
+      },
+      "balance_current": {
+        "name": "Balance current"
+      },
+      "temperature_mos": {
+        "name": "MOSFET temperature"
+      },
+      "temperature_pcb": {
+        "name": "Board temperature"
+      },
+      "temperature_cell": {
+        "name": "Cell temperature {sensor}"
+      },
+      "cell_voltage": {
+        "name": "Cell {cell} voltage"
+      },
+      "cell_voltage_min": {
+        "name": "Min cell voltage"
+      },
+      "cell_voltage_max": {
+        "name": "Max cell voltage"
+      },
+      "cell_voltage_avg": {
+        "name": "Average cell voltage"
+      },
+      "cell_voltage_delta": {
+        "name": "Cell voltage delta"
+      },
+      "problem_code": {
+        "name": "Problem code"
+      },
+      "status_1": {
+        "name": "Status 1 (protections)"
+      },
+      "status_2": {
+        "name": "Status 2"
+      },
+      "status_3": {
+        "name": "Status 3 (MOSFETs)"
+      },
+      "status_4": {
+        "name": "Status 4"
+      },
+      "status_5": {
+        "name": "Status 5"
+      },
+      "status_6": {
+        "name": "Status 6"
+      },
+      "status_7": {
+        "name": "Status 7"
+      },
+      "warning_1": {
+        "name": "Warning 1"
+      },
+      "warning_2": {
+        "name": "Warning 2"
+      },
+      "charge_current_state": {
+        "name": "Charge current state"
+      },
+      "voltage_state": {
+        "name": "Pack voltage state"
+      },
+      "discharge_current_state": {
+        "name": "Discharge current state"
+      },
+      "battery_mode": {
+        "name": "Battery mode",
+        "state": {
+          "standby": "Standby",
+          "charging": "Charging",
+          "discharging": "Discharging",
+          "unknown": "Unknown"
+        }
+      },
+      "alarms": {
+        "name": "Active alarms"
+      }
+    },
+    "binary_sensor": {
+      "discharging": {
+        "name": "Discharging"
+      },
+      "balancing": {
+        "name": "Balancing"
+      },
+      "warning": {
+        "name": "Warning"
+      }
+    },
+    "switch": {
+      "charge": {
+        "name": "Charge"
+      },
+      "discharge": {
+        "name": "Discharge"
+      }
+    }
+  },
+  "exceptions": {
+    "device_not_found": {
+      "message": "Battery {address} not found. It may be asleep or out of range."
+    },
+    "switch_off_locked": {
+      "message": "Switching off is locked for {entity}. Enable \"Allow switching off\" in the integration options first."
+    },
+    "switch_failed": {
+      "message": "The battery accepted the command, but the MOSFET did not change state. A protection may be active."
+    },
+    "command_rejected": {
+      "message": "The battery rejected the command."
+    },
+    "communication_error": {
+      "message": "Communication with the battery failed: {error}"
+    },
+    "not_supported": {
+      "message": "{address} has no TDT BMS (Bluetooth service FFF0 missing). WattCycle packs with JK or JBD BMS are not supported by this integration."
+    }
+  }
+}

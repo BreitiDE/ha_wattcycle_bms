@@ -1,0 +1,37 @@
+{
+  "domain": "ha_wattcycle_bms",
+  "name": "WattCycle BMS",
+  "bluetooth": [
+    {
+      "local_name": "WTDH*",
+      "connectable": true
+    },
+    {
+      "local_name": "XDZN*",
+      "connectable": true
+    },
+    {
+      "manufacturer_id": 54976,
+      "connectable": true
+    },
+    {
+      "service_uuid": "0000fff0-0000-1000-8000-00805f9b34fb",
+      "connectable": true
+    },
+    {
+      "service_uuid": "0000ffe0-0000-1000-8000-00805f9b34fb",
+      "connectable": true
+    }
+  ],
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [
+    "bluetooth_adapters"
+  ],
+  "documentation": "https://github.com/OWNER/ha_wattcycle_bms",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/OWNER/ha_wattcycle_bms/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
