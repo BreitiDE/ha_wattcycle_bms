@@ -48,7 +48,8 @@ _LOGGER = logging.getLogger(__name__)
 
 REQUEST_TIMEOUT: Final = 2.0  # seconds per attempt
 REQUEST_RETRIES: Final = 2  # attempts per command head
-SWITCH_SETTLE_TIME: Final = 0.5  # seconds before reading back the MOSFET state
+SWITCH_SETTLE_TIME: Final = 0.5  # seconds between status reads after a switch command
+SWITCH_CONFIRM_TIMEOUT: Final = 6.0  # seconds until a switch command counts as not effective
 
 
 class WattcycleError(Exception):
@@ -179,9 +180,7 @@ class WattcycleClient:
                     "on" if on else "off",
                 )
                 await self._write(register, b"\x01" if on else b"\x00")
-                await asyncio.sleep(SWITCH_SETTLE_TIME)
-                frame = await self._request(REG_STATUS)
-                status = parse_status(frame.payload, frame.crc_ok)
+                status = await self._await_switch_state(register, on)
             except WattcycleCommandRejectedError:
                 raise
             except WattcycleError:
@@ -193,12 +192,36 @@ class WattcycleClient:
             finally:
                 if not self._keep_alive:
                     await self._disconnect()
-        actual = status.charge_mosfet if register == REG_CHARGE_SWITCH else status.discharge_mosfet
-        if actual is not on:
+        if self._switch_state(status, register) is not on:
             raise WattcycleSwitchError(
-                f"switch 0x{register:02X} still {'on' if actual else 'off'} after command"
+                f"switch 0x{register:02X} still {'on' if not on else 'off'} "
+                f"{SWITCH_CONFIRM_TIMEOUT:.0f} s after command "
+                f"(status 3 = 0x{status.status[2] if len(status.status) > 2 else 0:02X})"
             )
         return status
+
+    @staticmethod
+    def _switch_state(status: StatusData, register: int) -> bool | None:
+        return status.charge_mosfet if register == REG_CHARGE_SWITCH else status.discharge_mosfet
+
+    async def _await_switch_state(self, register: int, on: bool) -> StatusData:
+        """Poll 0x8D until the MOSFET follows; the BMS updates status 3 with a delay."""
+        loop = asyncio.get_running_loop()
+        deadline = loop.time() + SWITCH_CONFIRM_TIMEOUT
+        while True:
+            await asyncio.sleep(SWITCH_SETTLE_TIME)
+            frame = await self._request(REG_STATUS)
+            status = parse_status(frame.payload, frame.crc_ok)
+            state = self._switch_state(status, register)
+            _LOGGER.debug(
+                "%s: after switch 0x%02X -> %s: status 3 = %s",
+                self.address,
+                register,
+                on,
+                f"0x{status.status[2]:02X}" if len(status.status) > 2 else "?",
+            )
+            if state is on or loop.time() >= deadline:
+                return status
 
     async def disconnect(self) -> None:
         """Close the connection."""

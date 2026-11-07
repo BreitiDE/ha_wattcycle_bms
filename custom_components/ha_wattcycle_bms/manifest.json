@@ -23,15 +23,15 @@
       "connectable": true
     }
   ],
-  "codeowners": [],
+  "codeowners": ["@BreitiDE"],
   "config_flow": true,
   "dependencies": [
     "bluetooth_adapters"
   ],
-  "documentation": "https://github.com/OWNER/ha_wattcycle_bms",
+  "documentation": "https://github.com/BreitiDE/ha_wattcycle_bms",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/OWNER/ha_wattcycle_bms/issues",
+  "issue_tracker": "https://github.com/BreitiDE/ha_wattcycle_bms/issues",
   "requirements": [],
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

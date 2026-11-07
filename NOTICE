@@ -4,7 +4,7 @@ Copyright 2026 Stefan Knoblauch
 This product includes code derived from aiobmsble
 (https://github.com/patman15/aiobmsble), Copyright the aiobmsble authors,
 licensed under the Apache License, Version 2.0. The protocol implementation in
-custom_components/ha_wattcycle_bms/protocol.py and the recorded test frames in
-tests/frames.py are based on aiobmsble's TDT BMS plugin and its test suite.
+custom_components/ha_wattcycle_bms/protocol.py is based on aiobmsble's TDT BMS
+plugin.
 Changes: standalone re-implementation, additional fields decoded, per-sample
 current scaling, frame reassembly rewritten.

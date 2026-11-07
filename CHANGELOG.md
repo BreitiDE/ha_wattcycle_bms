@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 – 2026-11-07
+
+### Behoben
+- Schalten von Laden/Entladen meldete fälschlich „MOSFET hat nicht umgeschaltet“. Das BMS
+  aktualisiert Status 3 erst mit Verzögerung; die Integration fragt den Status jetzt bis zu
+  6 s lang alle 0,5 s ab, statt einmal nach 0,5 s. Fehlermeldung enthält den Rohwert von
+  Status 3, jeder Abfrageschritt wird im Debug-Log protokolliert.
+
 ## 1.0.0 – 2026-10-30
 
 Abgeglichen mit der offiziellen WattCycle-App 26.0.3 (`com.gz.wattcycle`).

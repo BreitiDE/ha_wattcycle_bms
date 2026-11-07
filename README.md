@@ -104,17 +104,6 @@ Die beiden Schalter zeigen den Zustand, den das BMS meldet (Status 3).
 *Gerät → ⋮ → Diagnosedaten herunterladen* enthält die zuletzt empfangenen Roh-Frames
 (`last_raw_frames`). Damit lassen sich unbekannte Status-Bits zuordnen.
 
-## Entwicklung
-
-```bash
-python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements_test.txt
-pytest          # Protokoll-, Client- und Integrationstests mit echten Frames
-ruff check .
-```
-
-Protokolldetails: [docs/PROTOCOL.md](docs/PROTOCOL.md).
-
 ## Lizenz
 
 Apache-2.0. Das Protokoll basiert auf dem TDT-Plugin von
